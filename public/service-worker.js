@@ -2,7 +2,7 @@ const CACHE_NAME = 'casamentoPeR';
 let files = [
   "./index.html",
   "./manifest.json",
-  "./styles/custom.css",
+  "./styles/custom.less",
   "./appcache.manifest",
   "./service-worker.js",
   "./imgs/logo-128.png",
