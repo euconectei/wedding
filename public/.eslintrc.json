@@ -1,0 +1,18 @@
+{
+	"extends": ["eslint:recommended", "google"],
+	"env": {
+		"browser": true,
+		"jquery": true,
+		"serviceworker": true
+	},
+	"globals": {
+		"$": true,
+		"firebase": true,
+		"navigator": true,
+		"self": true,
+		"window": true
+	},
+	"rules": {
+		"no-self-compare": 0
+	}
+}

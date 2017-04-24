@@ -1,0 +1,161 @@
+@color-1: #32BFF0;
+@color-2: #EE72AA;
+@color-3: #FFEF3C;
+
+@font-color: #333;
+@font-color-light: #ccc;
+
+.secao {
+  height: 100vh;
+  padding: 10vh 0;
+  position: relative;
+
+  &-horario {
+    background: url("../imgs/coracao-semitransparente.jpg") no-repeat -35vw -35vw fixed;
+    background-size: 100vw;
+
+    @media (orientation: portrait) {
+      background: url("../imgs/coracao-semitransparente.jpg") no-repeat -75vw -75vw fixed;
+      background-size: 250vw;
+    }
+    // @media (max-width: 468px) {
+    //   background: url("../imgs/coracao-semitransparente.jpg") no-repeat -35vw -35vw fixed;
+    //   background-size: 250vw;
+    // }
+    .date {
+      font-size: 7vw;
+      margin-top: 20vh;
+      text-align: center;
+    }
+    #countdown {
+      color: @font-color-light;
+      font-size: 7vw;
+      margin-top: 2vh;
+      text-align: center;
+    }
+  }
+
+  &-local {
+    #map {
+      height: 60vh;
+      width: 100%;
+    }
+    .address {
+      margin-top: 10px;
+    //   @media (orientation: portrait) {
+    //     width: 45vw;
+    //   }
+    }
+  }
+
+  &-noivos {
+    background-color: @color-2;
+    
+    @media (orientation: portrait) {
+      .col-xs-6.noivos {
+        width: 100% !important;
+      }
+    }
+  }
+  
+  &-padrinhos {
+    background-color: @color-1;
+    
+    @media (orientation: portrait) {
+      .col-xs-6 {
+        width: 100% !important;
+      }
+    }
+    
+    .padrinho {
+      margin-bottom: 10px;
+    }
+  }
+  &-fotos {
+    .hashtag {
+      bottom: 5vh;
+      color: @font-color-light;
+      font-size: 10vw;
+      position: absolute;
+      right: 10vw;
+      z-index: 9;
+    }
+  }
+  &-presenca {
+    background-color: @color-3;
+  }
+
+  h1 {
+    bottom: 7vh;
+    color: @font-color;
+    position: absolute;
+    right: 10vw;
+    text-align: right;
+    z-index: 10;
+  }
+  
+  .message {
+    font-size: 5vw;
+  }
+
+}
+
+.loader {
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%); }
+  .loader #spinner {
+    box-sizing: border-box;
+    stroke: @color-1;
+    stroke-width: 3px;
+    -webkit-transform-origin: 50%;
+            transform-origin: 50%;
+    -webkit-animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite;
+            animation: line 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite, rotate 1.6s linear infinite; }
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+            transform: rotate(0); }
+  to {
+    -webkit-transform: rotate(450deg);
+            transform: rotate(450deg); } }
+
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+            transform: rotate(0); }
+  to {
+    -webkit-transform: rotate(450deg);
+            transform: rotate(450deg); } }
+
+
+@-webkit-keyframes line {
+  0% {
+    stroke-dasharray: 2, 85.964;
+    -webkit-transform: rotate(0);
+            transform: rotate(0); }
+  50% {
+    stroke-dasharray: 65.973, 21.9911;
+    stroke-dashoffset: 0; }
+  100% {
+    stroke-dasharray: 2, 85.964;
+    stroke-dashoffset: -65.973;
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
+
+@keyframes line {
+  0% {
+    stroke-dasharray: 2, 85.964;
+    -webkit-transform: rotate(0);
+            transform: rotate(0); }
+  50% {
+    stroke-dasharray: 65.973, 21.9911;
+    stroke-dashoffset: 0; }
+  100% {
+    stroke-dasharray: 2, 85.964;
+    stroke-dashoffset: -65.973;
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg); } }
