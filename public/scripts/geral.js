@@ -1,29 +1,32 @@
 const applicationServerPublicKey = 'BNSmrP0eU2j2B95hFLB1IMR3HdeSStOtH8gDtyKKNaRliKsAoe4mSyMuNpx2JEv7HlPzP5xdFQ1RU4T51ahBqZw';
 
-// scroll
-$(function() {
-  $('a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 300);
-        return false;
-      }
-    }
-  });
-});
+// // scroll
+// $(function() {
+//   $('a[href*="#"]:not([href="#"])').click(function() {
+//     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+//       var target = $(this.hash);
+//       target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+//       if (target.length) {
+//         $('html, body').animate({
+//           scrollTop: target.offset().top
+//         }, 300);
+//         return false;
+//       }
+//     }
+//   });
+// });
 
 
 // Countdown
-$("#countdown")
-  .countdown("2017/08/06 16:00:00", function(event) {
-    $(this).text(
-      event.strftime('%D dias %H:%M:%S')
-    );
-  });
+// $("#countdown")
+//   .countdown("2017/08/06 16:00:00", function(event) {
+//     $(this).text(
+//       event.strftime('%D dias %H:%M:%S')
+//     );
+//   });
+
+// countdown
+countdown('#countdown', "2017/08/06 16:00:00");
 
 // Mapa
 function initMap() {
@@ -47,7 +50,11 @@ function initMap() {
 
   if (evento > now) {
     console.log('ainda vem');
-    document.querySelector('.depois').style.display = 'none';
+    var elemDepois = document.getElementsByClassName('depois');
+    for (var i = 0; i < elemDepois.length; i++) {
+      elemDepois[i].style.display = 'none';
+    }
+    // elemDepois.style.display = 'none';
   } else {
     console.log('passou');
   }

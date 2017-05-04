@@ -27,14 +27,14 @@ function createInvite(name, email, tel) {
   db.ref('invite/' + ivtKey).set(ivtData);
 }
 
-// var name = document.querySelector('#nome').value;
-var name = 'Rafael França Marques da Silva';
-// var email = document.querySelector('#email').value;
-var email = 'rafaelfms@gmail.com';
-// var tel = document.querySelector('#tel').value;
-var tel = '21981067464';
+var name = document.querySelector('#nome').value;
+// var name = 'Rafael França Marques da Silva';
+var email = document.querySelector('#email').value;
+// var email = 'rafaelfms@gmail.com';
+var tel = document.querySelector('#tel').value;
+// var tel = '21981067464';
 
-document.querySelector('#bt_createInvite').addEventListener('click', function () {createInvite(name, email, tel);}, false);
+// document.querySelector('#bt_createInvite').addEventListener('click', function () {createInvite(name, email, tel);}, false);
 
 
 
@@ -104,29 +104,3 @@ firebase.auth().onAuthStateChanged(function(user) {
     // No user is signed in.
   }
 });
-
-
-const messaging = firebase.messaging();
-
-messaging.requestPermission()
-.then(function() {
-  console.log('Notification permission granted.');
-  // TODO(developer): Retrieve an Instance ID token for use with FCM.
-  // ...
-})
-.catch(function(err) {
-  console.log('Unable to get permission to notify.', err);
-});
-
-
-
-
-
-
-function writeUserData(userId, name, email, imageUrl) {
-  firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email,
-    profile_picture : imageUrl
-  });
-}

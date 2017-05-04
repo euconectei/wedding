@@ -1,9 +1,79 @@
-@color-1: #32BFF0;
-@color-2: #EE72AA;
-@color-3: #FFEF3C;
+@color-1: #7FDCF6; //#32BFF0 - Azul
+@color-2: #F3A9CA; //#EE72AA - Rosa
+@color-3: #FDF678; //#FFEF3C - Amarelo
 
 @font-color: #333;
-@font-color-light: #ccc;
+@font-color-light: #999;
+
+/*!
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Core variables and mixins
+@import "bootstrap/variables.less";
+@import "bootstrap/mixins.less";
+
+// Reset and dependencies
+@import "bootstrap/normalize.less";
+@import "bootstrap/print.less";
+// @import "bootstrap/glyphicons.less";
+
+// Core CSS
+@import "bootstrap/scaffolding.less";
+@import "bootstrap/type.less";
+// @import "bootstrap/code.less";
+@import "bootstrap/grid.less";
+@import "bootstrap/tables.less";
+@import "bootstrap/forms.less";
+@import "bootstrap/buttons.less";
+
+// Components
+@import "bootstrap/component-animations.less";
+@import "bootstrap/dropdowns.less";
+@import "bootstrap/button-groups.less";
+@import "bootstrap/input-groups.less";
+@import "bootstrap/navs.less";
+@import "bootstrap/navbar.less";
+// @import "bootstrap/breadcrumbs.less";
+// @import "bootstrap/pagination.less";
+// @import "bootstrap/pager.less";
+// @import "bootstrap/labels.less";
+// @import "bootstrap/badges.less";
+// @import "bootstrap/jumbotron.less";
+// @import "bootstrap/thumbnails.less";
+// @import "bootstrap/alerts.less";
+// @import "bootstrap/progress-bars.less";
+// @import "bootstrap/media.less";
+// @import "bootstrap/list-group.less";
+// @import "bootstrap/panels.less";
+@import "bootstrap/responsive-embed.less";
+// @import "bootstrap/wells.less";
+// @import "bootstrap/close.less";
+
+// Components w/ JavaScript
+// @import "bootstrap/modals.less";
+// @import "bootstrap/tooltip.less";
+// @import "bootstrap/popovers.less";
+// @import "bootstrap/carousel.less";
+
+// Utility classes
+@import "bootstrap/utilities.less";
+@import "bootstrap/responsive-utilities.less";
+
+
+.before(@color: #fff) {
+  background-color: @color;
+  content: "";
+  height: 100%;
+  width: 100vw;
+  transform-origin: 0 0;
+  transform: rotateZ(-2deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
 .secao {
   height: 100vh;
@@ -36,6 +106,9 @@
   }
 
   &-local {
+    &:before {
+      .before();
+    }
     #map {
       height: 60vh;
       width: 100%;
@@ -53,6 +126,10 @@
     // background: url(../imgs/bg/noivos.jpg) no-repeat center center;
     // background-size: cover;
     
+    &:before {
+      .before(@color-2);
+    }
+    
     @media (orientation: portrait) {
       .col-xs-6.noivos {
         width: 100% !important;
@@ -63,6 +140,10 @@
   &-padrinhos {
     background-color: @color-1;
     
+    &:before {
+      .before(@color-1);
+    }
+    
     @media (orientation: portrait) {
       .col-xs-6 {
         width: 100% !important;
@@ -72,8 +153,12 @@
     .padrinho {
       margin-bottom: 10px;
     }
+
   }
   &-fotos {
+    &:before {
+      .before();
+    }
     .hashtag {
       bottom: 5vh;
       color: @font-color-light;
@@ -85,6 +170,9 @@
   }
   &-presenca {
     background-color: @color-3;
+    &:before {
+      .before(@color-3);
+    }
   }
 
   h1 {

@@ -4,10 +4,10 @@
   "lang": "pt-BR",
   "start_url": "index.html",
   "display": "fullscreen",
-  "background_color": "#FFFFFF";
+  "background_color": "#FFFFFF",
   "theme_color": "#FFFFFF",
   "orientation": "landscape",
-  "gcm_sender_id": "575718761506"
+  "gcm_sender_id": "575718761506",
   "icons": [
     {
       "src": "imgs/logo-128.png",
