@@ -10,6 +10,14 @@ messagingSenderId: "575718761506"
 firebase.initializeApp(config);
 
 var db = firebase.database();
+var invites = db.ref('invite');
+
+invites.on('child_added', function (snapshot) {
+  updateInvites('#tb_invites', snapshot);
+});
+invites.on('child_removed', function (snapshot) {
+  deleteInvite(snapshot.key);
+});
 
 /*
  *
@@ -17,26 +25,28 @@ var db = firebase.database();
  * 
  */
 
-function createInvite(name, email, tel) {
+function createInvite(name, email, tel, code) {
   var ivtData = {
     name: name,
     email: email,
-    tel: tel
+    tel: tel,
+    code: code,
+    confirmed: false
   };
-  var ivtKey = db.ref().child('invite').push().key;
+  console.log(ivtData);
+  var ivtKey = invites.push().key;
   db.ref('invite/' + ivtKey).set(ivtData);
 }
 
-var name = document.querySelector('#nome').value;
-// var name = 'Rafael França Marques da Silva';
-var email = document.querySelector('#email').value;
-// var email = 'rafaelfms@gmail.com';
-var tel = document.querySelector('#tel').value;
-// var tel = '21981067464';
-
-// document.querySelector('#bt_createInvite').addEventListener('click', function () {createInvite(name, email, tel);}, false);
-
-
+document.querySelector('#form-invite')
+  .addEventListener('submit', function () {
+    event.preventDefault();
+    var name = document.querySelector('#nome').value;
+    var email = document.querySelector('#email').value;
+    var tel = document.querySelector('#tel').value;
+    var code = document.querySelector('#code').value;
+    createInvite(name, email, tel, code);
+  }, false);
 
 /*
  *
@@ -44,37 +54,48 @@ var tel = document.querySelector('#tel').value;
  * 
  */
 
-var invites = db.ref('invite');
 function updateInvites(elem, value) {
+  var val = value.val()
   var tr = document.createElement('tr');
   tr.setAttribute('id', value.key);
-  val = value.val()
+  tr.setAttribute('class', (val.confirmed)?'success':'');
   var tdName = document.createElement('td');
   tdName.innerText = val.name;
   var tdEmail = document.createElement('td');
   tdEmail.innerText = val.email;
   var tdTel = document.createElement('td')
   tdTel.innerText = val.tel;
+  var tdCode = document.createElement('td')
+  tdCode.innerText = val.code;
   var tdAction = document.createElement('td');
-  tdAction.innerHTML = `<div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Ações <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Confirmar</a></li>
-      <li><a href="#">Apagar</a></li>
-    </ul>
-  </div>`;
+  if(!val.confirmed) {
+    tdAction.innerHTML = '<input type="button" class="btn btn-danger btn-sm" value="Apagar" onclick="deleteInvite(\'' + value.key + '\')">';
+  }
 
   tr.appendChild(tdName);
   tr.appendChild(tdEmail);
   tr.appendChild(tdTel);
+  tr.appendChild(tdCode);
   tr.appendChild(tdAction);
   document.querySelector(elem).appendChild(tr);
 }
-invites.on('child_added', function (snapshot) {
-  updateInvites('#tb_invites', snapshot);
-});
+
+/*
+ *
+ * Function Delete Invite 
+ * 
+ */
+
+function deleteInvite(id) {
+  invites.child(id).remove().then(
+    function (value) {
+      document.querySelector('#'+id).remove();
+    },
+    function (err) {
+      console.error(err);
+    }
+  );
+}
 
 
 // Instanciando provedor do Google
@@ -104,3 +125,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     // No user is signed in.
   }
 });
+
+
+document.querySelector('#newCode').addEventListener('click', function() {
+  var code = codegen(6, true, false, false);
+  console.log(code);
+  document.querySelector('#code').value = code;
+}, false)

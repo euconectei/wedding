@@ -1,29 +1,16 @@
 const applicationServerPublicKey = 'BNSmrP0eU2j2B95hFLB1IMR3HdeSStOtH8gDtyKKNaRliKsAoe4mSyMuNpx2JEv7HlPzP5xdFQ1RU4T51ahBqZw';
 
-// // scroll
-// $(function() {
-//   $('a[href*="#"]:not([href="#"])').click(function() {
-//     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-//       var target = $(this.hash);
-//       target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-//       if (target.length) {
-//         $('html, body').animate({
-//           scrollTop: target.offset().top
-//         }, 300);
-//         return false;
-//       }
-//     }
-//   });
-// });
-
-
-// Countdown
-// $("#countdown")
-//   .countdown("2017/08/06 16:00:00", function(event) {
-//     $(this).text(
-//       event.strftime('%D dias %H:%M:%S')
-//     );
-//   });
+(function scroll() {
+  var links = document.querySelectorAll('a[href*="#"]:not([href="#"])');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function () {
+      event.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      console.log(target);
+      scrollTo(document.body, target.offsetTop, 300);
+    }, false);
+  }
+}());
 
 // countdown
 countdown('#countdown', "2017/08/06 16:00:00");
@@ -60,16 +47,27 @@ function initMap() {
   }
 }());
 
-// $(document).ready(function () {
-  
+// Initialize Firebase
+var config = {
+apiKey: "AIzaSyDQff0khc_zt4keBDkV4YAR-OsbpH_Bbgk",
+authDomain: "silken-alloy-164902.firebaseapp.com",
+databaseURL: "https://silken-alloy-164902.firebaseio.com",
+projectId: "silken-alloy-164902",
+storageBucket: "silken-alloy-164902.appspot.com",
+messagingSenderId: "575718761506"
+};
+firebase.initializeApp(config);
 
-  
-//   var optionNotification = {
-//     "body": "Está chegando o dia!",
-//     "icon": "imgs/logo-192.png",
-//     "vibrate": [200, 100, 200, 100, 200, 100, 400],
-//     "tag": "request"
-//   };
-//   document.body.requestFullscreen();
-//   serviceWorkerRegistration.showNotification('Teste', optionNotification);
-// });
+var db = firebase.database();
+var invites = db.ref('invite');
+
+document.querySelector('#form-confirm')
+  .addEventListener('submit', function () {
+    event.preventDefault();
+    if (verifyGuest()) {
+      
+    }
+    var name = document.querySelector('#nome').value;
+    var email = document.querySelector('#email').value;
+    updateInvite(name, email, tel, code);
+  }, false);

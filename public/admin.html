@@ -12,28 +12,39 @@
   <div class="container">
     <h1>Adiciona Convidado</h1>
     
-    <form action="#" method="POST" class="form-horizontal" role="form">
+    <form action="#" id="form-invite" method="POST" class="form-horizontal" role="form">
       <div class="form-group">
         <label for="nome" class="col-sm-2 control-label">Nome:</label>
         <div class="col-sm-10">
-          <input type="text" name="" id="nome" class="form-control">
+          <input type="text" name="nome" id="nome" class="form-control" required>
         </div>
       </div>
       <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email:</label>
         <div class="col-sm-10">
-          <input type="email" name="" id="email" class="form-control">
+          <input type="email" name="email" id="email" class="form-control">
         </div>
       </div>
       <div class="form-group">
         <label for="tel" class="col-sm-2 control-label">Telefone:</label>
         <div class="col-sm-10">
-          <input type="text" name="" id="tel" class="form-control">
+          <input type="text" name="tel" id="tel" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="code" class="col-sm-2 control-label">Código:</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <input type="text" name="code" id="code" class="form-control">
+            <span class="input-group-btn">
+              <input type="button" id="newCode" class="btn btn-default" value="gerar novo" required>
+            </span>
+          </div><!-- /input-group -->
         </div>
       </div>
       <div class="form-group">
         <div class="col-sm-10 col-sm-offset-2">
-          <input type="button" class="btn btn-primary" id="bt_createInvite" value="Cadastrar">
+          <input type="submit" class="btn btn-primary" id="bt_createInvite" value="Cadastrar">
         </div>
       </div>
     </form>
@@ -44,6 +55,7 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Tel</th>
+            <th>Código</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -53,9 +65,7 @@
     </div>
   </div>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  
-  
-  
+  <script src="scripts/codegen.js"></script>
   <script src="scripts/app.js"></script>
 </body>
 </html>
