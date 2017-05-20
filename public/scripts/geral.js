@@ -65,9 +65,13 @@ document.querySelector('#form-confirm')
   .addEventListener('submit', function () {
     event.preventDefault();
     if (verifyGuest()) {
-      
+
     }
     var name = document.querySelector('#nome').value;
     var email = document.querySelector('#email').value;
     updateInvite(name, email, tel, code);
   }, false);
+
+function verifyGuest(name, code) {
+  invites.orderByChild('code').equalTo(code)
+}
