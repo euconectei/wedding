@@ -10,7 +10,7 @@ messagingSenderId: "575718761506"
 firebase.initializeApp(config);
 
 var db = firebase.database();
-var invites = db.ref('invite');
+var invites = db.ref('invites');
 
 invites.on('child_added', function (snapshot) {
   updateInvites('#tb_invites', snapshot);
@@ -35,7 +35,7 @@ function createInvite(name, email, tel, code) {
   };
   console.log(ivtData);
   var ivtKey = invites.push().key;
-  db.ref('invite/' + ivtKey).set(ivtData);
+  db.ref('invites/' + ivtKey).set(ivtData);
 }
 
 document.querySelector('#form-invite')
@@ -128,7 +128,11 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 document.querySelector('#newCode').addEventListener('click', function() {
+  geraCode();
+}, false);
+
+(function geraCode() {
   var code = codegen(6, true, false, false);
-  console.log(code);
+  // console.log(code);
   document.querySelector('#code').value = code;
-}, false)
+}());

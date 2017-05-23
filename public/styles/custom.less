@@ -43,7 +43,7 @@
 // @import "bootstrap/badges.less";
 // @import "bootstrap/jumbotron.less";
 // @import "bootstrap/thumbnails.less";
-// @import "bootstrap/alerts.less";
+@import "bootstrap/alerts.less";
 // @import "bootstrap/progress-bars.less";
 // @import "bootstrap/media.less";
 // @import "bootstrap/list-group.less";
@@ -62,6 +62,9 @@
 @import "bootstrap/utilities.less";
 @import "bootstrap/responsive-utilities.less";
 
+html {
+  overflow-x: hidden;
+}
 
 .before(@color: #fff) {
   background-color: @color;
@@ -70,13 +73,17 @@
   width: 100vw;
   transform-origin: 0 0;
   transform: rotateZ(-2deg);
-  position: absolute;
+  // position: absolute;
   top: 0;
   left: 0;
 }
 
+#ux {
+  z-index: 99999;
+}
+
 .secao {
-  height: 100vh;
+  min-height: 100vh;
   padding: 10vh 0;
   position: relative;
 

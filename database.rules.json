@@ -1,6 +1,16 @@
 {
   "rules": {
-    ".read": "auth != null",
+    "invites": {
+      "$invite": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "confirmed": {
+          ".write": true
+        }  
+      },
+      ".indexOn": "name"
+    },
+    ".read": true,
     ".write": "auth != null"
   }
 }

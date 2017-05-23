@@ -1,4 +1,5 @@
 const applicationServerPublicKey = 'BNSmrP0eU2j2B95hFLB1IMR3HdeSStOtH8gDtyKKNaRliKsAoe4mSyMuNpx2JEv7HlPzP5xdFQ1RU4T51ahBqZw';
+var ux = document.querySelector('#ux');
 
 (function scroll() {
   var links = document.querySelectorAll('a[href*="#"]:not([href="#"])');
@@ -6,7 +7,6 @@ const applicationServerPublicKey = 'BNSmrP0eU2j2B95hFLB1IMR3HdeSStOtH8gDtyKKNaRl
     links[i].addEventListener('click', function () {
       event.preventDefault();
       var target = document.querySelector(this.getAttribute('href'));
-      console.log(target);
       scrollTo(document.body, target.offsetTop, 300);
     }, false);
   }
@@ -59,19 +59,38 @@ messagingSenderId: "575718761506"
 firebase.initializeApp(config);
 
 var db = firebase.database();
-var invites = db.ref('invite');
+var invites = db.ref('invites');
 
-document.querySelector('#form-confirm')
-  .addEventListener('submit', function () {
-    event.preventDefault();
-    if (verifyGuest()) {
-
-    }
-    var name = document.querySelector('#nome').value;
-    var email = document.querySelector('#email').value;
-    updateInvite(name, email, tel, code);
+document.querySelector('#confirm')
+  .addEventListener('click', function () {
+    var confirmed = false;
+    // event.preventDefault();
+    console.log('entrou em envio de confirmacao');
+    var name = document.querySelector('#name').value;
+    updateInvite(name);
   }, false);
 
-function verifyGuest(name, code) {
-  invites.orderByChild('code').equalTo(code)
+function updateInvite(name) {
+  console.log('verificando se visitante "' + name + '" é convidado');
+  var ok = invites.orderByChild('name').equalTo(name).once(
+    "child_added",
+    function(snapshot) {
+      console.log(snapshot.key);
+      var updates = {};
+      updates[ snapshot.key + '/' + 'confirmed'] = true;
+      invites.update(updates, function(error) {
+        if (error) {
+          ux.classList.add('alert-danger');
+          ux.innerText = 'Confira se o nome está como o do convite individual.';
+        } else {
+          ux.classList.add('alert-success');
+          ux.innerText = 'Confirmado com sucesso.';
+        }
+      });
+    },
+    function (err) {
+      console.log('Sem permissão para acessar os dados');
+      console.log(err);
+    }
+  );
 }
