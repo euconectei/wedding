@@ -1,3 +1,5 @@
+/* global firebase */
+
 // Initialize Firebase
 var config = {
 apiKey: "AIzaSyDQff0khc_zt4keBDkV4YAR-OsbpH_Bbgk",
@@ -35,7 +37,9 @@ function createInvite(name, email, tel, code) {
   };
   console.log(ivtData);
   var ivtKey = invites.push().key;
-  db.ref('invites/' + ivtKey).set(ivtData);
+  db.ref('invites/' + ivtKey).set(ivtData).then(function () {
+    init();
+  });
 }
 
 document.querySelector('#form-invite')
@@ -126,13 +130,22 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
+function geraCode() {
+  var code = codegen(6, true, false, false);
+  // console.log(code);
+  document.querySelector('#code').value = code;
+};
 
 document.querySelector('#newCode').addEventListener('click', function() {
   geraCode();
 }, false);
 
-(function geraCode() {
-  var code = codegen(6, true, false, false);
-  // console.log(code);
-  document.querySelector('#code').value = code;
-}());
+init();
+
+function init() {
+  document.querySelector('#nome').value = '';
+  document.querySelector('#email').value = '';
+  document.querySelector('#tel').value = '';
+  
+  geraCode();
+}

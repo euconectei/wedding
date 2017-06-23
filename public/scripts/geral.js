@@ -49,44 +49,144 @@ function initMap() {
 
 // Initialize Firebase
 var config = {
-apiKey: "AIzaSyDQff0khc_zt4keBDkV4YAR-OsbpH_Bbgk",
-authDomain: "silken-alloy-164902.firebaseapp.com",
-databaseURL: "https://silken-alloy-164902.firebaseio.com",
-projectId: "silken-alloy-164902",
-storageBucket: "silken-alloy-164902.appspot.com",
-messagingSenderId: "575718761506"
+  apiKey: "AIzaSyDQff0khc_zt4keBDkV4YAR-OsbpH_Bbgk",
+  authDomain: "silken-alloy-164902.firebaseapp.com",
+  databaseURL: "https://silken-alloy-164902.firebaseio.com",
+  projectId: "silken-alloy-164902",
+  storageBucket: "silken-alloy-164902.appspot.com",
+  messagingSenderId: "575718761506"
 };
 firebase.initializeApp(config);
 
 var db = firebase.database();
 var invites = db.ref('invites');
 
-document.querySelector('#confirm')
+document.querySelector('#search')
   .addEventListener('click', function () {
     var confirmed = false;
     // event.preventDefault();
     console.log('entrou em envio de confirmacao');
-    var name = document.querySelector('#name').value;
-    updateInvite(name);
+    var code = document.querySelector('#code').value;
+    searchInvites(code);
   }, false);
+
+document.querySelector('#confirm')
+  .addEventListener('click', function () {
+    var ids = document.querySelectorAll('#group tr');
+    console.log(ids);
+    console.log(typeof(ids));
+    for (var i=0; i < ids.length; i++) {
+      console.log(ids[i]);
+      var id = ids[i].id;
+      console.log(id);
+      var confirm = document.querySelector('#'+id+' input[type=checkbox]').checked;
+      console.log(confirm);
+      confirmInvite(id, confirm)
+    }
+  });
+
+function searchInvites(code) {
+  
+  document.querySelector('#result').removeAttribute('style');
+  var elemResult = document.querySelector('#result #group');
+  elemResult.innerHTML = '';
+  //buscando convidados com o codigo
+  invites.orderByChild('code').equalTo(code).once(
+    "value",
+    function(snapshot) {
+      var data = snapshot.val();
+      var group = document.querySelector('#group');
+      for (var key in data) {
+        console.log(data[key]);
+        
+        var individual = document.createElement('tr');
+        individual.setAttribute('id', key);
+        group.appendChild(individual);
+        
+        var tdCheck = document.createElement('td');
+        var individualConfirm = document.createElement('input');
+        individualConfirm.setAttribute('type', 'checkbox');
+        if (data[key]['confirmed'] === true) {
+          individualConfirm.setAttribute('checked', 'checked');
+        }
+        tdCheck.appendChild(individualConfirm);
+        individual.appendChild(tdCheck);
+        
+        var tdName = document.createElement('td');
+        tdName.innerText = data[key]['name'];
+        individual.appendChild(tdName);
+
+      }
+    });
+  //exibindo convidados com o codigo
+}
+
+function confirmInvite(id, confirm) {
+  var updates = {};
+  updates[ id + '/' + 'confirmed'] = confirm;
+  invites.update(updates, function(error) {
+    if (error) {
+      // ux.classList.add('alert-danger');
+      // ux.innerText = 'Confira se o nome está como o do convite individual.';
+    } else {
+      ux.classList.add('alert-success');
+      ux.innerText = 'Dados atualizados com sucesso.';
+    }
+  });
+}
+
+
+
 
 function updateInvite(name) {
   console.log('verificando se visitante "' + name + '" é convidado');
-  var ok = invites.orderByChild('name').equalTo(name).once(
-    "child_added",
+  invites.orderByChild('name').equalTo(name).once(
+    "value",
     function(snapshot) {
-      console.log(snapshot.key);
-      var updates = {};
-      updates[ snapshot.key + '/' + 'confirmed'] = true;
-      invites.update(updates, function(error) {
-        if (error) {
-          ux.classList.add('alert-danger');
-          ux.innerText = 'Confira se o nome está como o do convite individual.';
-        } else {
-          ux.classList.add('alert-success');
-          ux.innerText = 'Confirmado com sucesso.';
+      var data = snapshot.val();
+      console.log(data);
+      
+      if (data !== null) {
+        for (var key in data) {
+          console.log(key);
+          var invite = db.ref('invites/' + key);
+          console.log(invite);
+          invite.once('value').then(
+            function (snap) {
+              var s = snap.val();
+              console.log(s);
+              console.log('verificando se o convidado já confirmou!');
+              if (s.confirmed) {
+                ux.classList.add('alert-info');
+                ux.innerText = 'Este nome já foi confirmado.';
+              } else {
+                var updates = {};
+                updates[ key + '/' + 'confirmed'] = true;
+                invites.update(updates, function(error) {
+                  if (error) {
+                    // ux.classList.add('alert-danger');
+                    // ux.innerText = 'Confira se o nome está como o do convite individual.';
+                  } else {
+                    ux.classList.add('alert-success');
+                    ux.innerText = 'Confirmado com sucesso.';
+                  }
+                });
+              }
+            },
+            function (er) {
+              console.log(er);
+            }
+          );
         }
-      });
+        
+      } else {
+        console.log('não existe');
+        ux.classList.add('alert-danger');
+        ux.innerText = 'Confira se o nome está como o do convite individual.';
+      }
+
+      
+
     },
     function (err) {
       console.log('Sem permissão para acessar os dados');

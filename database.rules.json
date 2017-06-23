@@ -8,7 +8,7 @@
           ".write": true
         }  
       },
-      ".indexOn": "name"
+      ".indexOn": ["name", "code"]
     },
     ".read": true,
     ".write": "auth != null"
